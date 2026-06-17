@@ -1,5 +1,71 @@
 package com.embarkX.url_shortener.security;
 
-public class JwtUtils {
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.crypto.SecretKey;
+import java.security.Key;
+import java.util.Date;
+import java.util.stream.Collectors;
+
+public class JwtUtils {
+//Authorization->Bearer <Token>
+    //Token Extraction
+
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    @Value("${jwt.expiration}")
+    private int jwtexpiration;
+    public String getJwtFromHeader(HttpServletRequest request){
+        String bearerToken=request.getHeader("Authorization");
+        if(bearerToken!=null){
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    public String generateToken(UserDetails userDetails){
+        String name=userDetails.getUsername();
+        String roles=userDetails.getAuthorities().stream()
+                .map(authority->authority.getAuthority())
+                .collect(Collectors.joining(","));
+        return Jwts.builder()
+                .subject(name)
+                .claim("roles",roles)
+                .issuedAt(new Date())
+                .expiration(new Date(new Date().getTime()+17280000))
+                .signWith(key())
+                .compact();
+    }
+
+    public String getUsernameFromJwtToken(String token){
+        return Jwts.parser()
+                .verifyWith((SecretKey) key())
+                .build().parseSignedClaims(token)
+                .getPayload().getSubject();
+    }
+    private Key key(){
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+    }
+    public boolean validateToken(String authToken){
+        try {
+            Jwts.parser().verifyWith((SecretKey)key())
+                    .build().parseSignedClaims(authToken);
+            return true;
+        } catch (JwtException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

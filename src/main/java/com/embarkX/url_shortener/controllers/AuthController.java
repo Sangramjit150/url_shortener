@@ -31,6 +31,7 @@ private UserService userService;
 
     @PostMapping("/public/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
+        System.out.println(loginRequest.getUsername());
     return ResponseEntity.ok(userService.loginUser(loginRequest));
     }
 }

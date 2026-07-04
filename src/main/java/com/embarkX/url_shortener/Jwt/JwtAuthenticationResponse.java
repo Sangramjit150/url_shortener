@@ -1,4 +1,4 @@
-package com.embarkX.url_shortener.security;
+package com.embarkX.url_shortener.Jwt;
 
 import org.springframework.stereotype.Component;
 

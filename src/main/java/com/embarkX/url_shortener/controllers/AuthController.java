@@ -1,5 +1,6 @@
 package com.embarkX.url_shortener.controllers;
 
+import com.embarkX.url_shortener.dtos.LoginRequest;
 import com.embarkX.url_shortener.dtos.RegisterRequest;
 import com.embarkX.url_shortener.models.User;
 import com.embarkX.url_shortener.services.UserService;
@@ -26,5 +27,10 @@ private UserService userService;
 
         userService.registerUser(user);
         return ResponseEntity.ok("User Registered Successfully");
+    }
+
+    @PostMapping("/public/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
+    return ResponseEntity.ok(userService.loginUser(loginRequest));
     }
 }

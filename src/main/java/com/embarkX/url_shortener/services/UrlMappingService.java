@@ -91,6 +91,17 @@ public class UrlMappingService {
 
     public url_mapping getOriginalUrl(String shortUrl) {
         url_mapping urlMapping=urlMappingRepository.findByShortUrl(shortUrl);
+        if(urlMapping!=null){
+            urlMapping.setClickCount(urlMapping.getClickCount()+1);
+            urlMappingRepository.save(urlMapping);
+
+            //Record Click Event
+            click_event clickEvent=new click_event();
+            clickEvent.setClickDate(LocalDate.now());
+            clickEvent.setUrlMapping(urlMapping);
+            clickEventRepository.save(clickEvent);
+        }
+
         return urlMapping;
     }
 }

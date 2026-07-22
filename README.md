@@ -1,44 +1,62 @@
 # 🔗 Linklytics - URL Shortener
 
-Linklytics is a full-stack URL shortening application that allows users to create, manage, and track shortened URLs.
+Linklytics is a full-stack URL shortening application that allows users to create short URLs, manage their links, track click analytics, and securely access their accounts using JWT authentication.
 
-Users can generate short and memorable links, copy them easily, and monitor click analytics through a dashboard.
-
----
-
-## ✨ Features
-
-- 🔐 User Registration and Login
-- 🔑 JWT-based Authentication
-- 🔗 Create Short URLs
-- 📋 Copy Short URLs to Clipboard
-- 📊 Track URL Click Analytics
-- 📈 View Click Statistics through Graphs
-- 🗂️ Manage Created Short URLs
-- 🧭 Protected Dashboard
-- ⚡ Responsive User Interface
-- 🎨 Modern UI with Tailwind CSS
-- 🔔 Toast Notifications
-- 🚨 Custom Error Page
+The project consists of a React frontend and a Spring Boot backend connected to a database.
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Features
 
-### Frontend
+### 🔐 Authentication
 
-- React.js
-- React Router DOM
-- Tailwind CSS v4
-- React Query / TanStack Query
+- User registration
+- User login
+- JWT-based authentication
+- Secure protected routes
+- Logout functionality
+
+### 🔗 URL Shortening
+
+- Create short URLs
+- Redirect users using shortened URLs
+- Copy shortened URLs to the clipboard
+- Manage created URLs
+
+### 📊 Analytics Dashboard
+
+- Track total clicks
+- View click analytics by date
+- Visualize data using charts
+- View all created short URLs
+
+### 🎨 Frontend
+
+- Responsive user interface
+- React-based architecture
+- Tailwind CSS styling
+- Framer Motion animations
+- React Hook Form validation
+- Toast notifications
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+- React
+- Vite
+- Tailwind CSS
+- React Router
 - Axios
 - React Hook Form
+- TanStack React Query
 - Framer Motion
 - React Icons
-- React Hot Toast
 - Recharts
 
-### Backend
+## Backend
 
 - Java
 - Spring Boot
@@ -46,41 +64,116 @@ Users can generate short and memorable links, copy them easily, and monitor clic
 - JWT Authentication
 - Spring Data JPA
 - Hibernate
+- REST APIs
+- Maven
+
+## Database
+
 - MySQL
 
 ---
 
-## 📂 Project Structure
+# 📁 Project Structure
+
+## Frontend
 
 ```text
-src/
-├── api/
-│   └── api.js
+url-shortener-frontend/
 │
-├── components/
-│   ├── AboutPage.jsx
-│   ├── Card.jsx
-│   ├── ErrorPage.jsx
-│   ├── Footer.jsx
-│   ├── LandingPage.jsx
-│   ├── LoginPage.jsx
-│   ├── Navbar.jsx
-│   ├── RegisterPage.jsx
-│   ├── TextField.jsx
+├── public/
+│   └── images/
+│
+├── src/
 │   │
-│   └── DashBoard/
-│       ├── DashBoardLayout.jsx
-│       ├── CreateNewShorten.jsx
-│       ├── Graph.jsx
-│       ├── ShortenItem.jsx
-│       ├── ShortenPopUp.jsx
-│       └── ShortenUrlList.jsx
+│   ├── api/
+│   │   └── api.js
+│   │
+│   ├── components/
+│   │   ├── Dashboard/
+│   │   │   ├── DashBoardLayout.jsx
+│   │   │   ├── CreateNewShorten.jsx
+│   │   │   ├── ShortenItem.jsx
+│   │   │   ├── ShortenUrlList.jsx
+│   │   │   ├── ShortenPopUp.jsx
+│   │   │   └── Graph.jsx
+│   │   │
+│   │   ├── LandingPage.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── Footer.jsx
+│   │   ├── LoginPage.jsx
+│   │   ├── RegisterPage.jsx
+│   │   ├── AboutPage.jsx
+│   │   ├── TextField.jsx
+│   │   └── ErrorPage.jsx
+│   │
+│   ├── contextApi/
+│   │   └── ContextApi.jsx
+│   │
+│   ├── hooks/
+│   │   └── useQuery.js
+│   │
+│   ├── DummyData/
+│   │   └── Data.js
+│   │
+│   ├── App.jsx
+│   ├── AppRouter.jsx
+│   └── main.jsx
 │
-├── contextApi/
-│   └── ContextApi.jsx
+├── package.json
+├── vite.config.js
+└── README.md
+
+url-shortener/
 │
-├── hooks/
-│   └── useQuery.js
+├── src/
+│   │
+│   ├── main/
+│   │   │
+│   │   ├── java/
+│   │   │   └── com.embarkX.url_shortener/
+│   │   │
+│   │   │       ├── controllers/
+│   │   │       │   ├── AuthController.java
+│   │   │       │   ├── RedirectController.java
+│   │   │       │   └── UrlMappingController.java
+│   │   │       │
+│   │   │       ├── dtos/
+│   │   │       │   ├── ClickEventDTO.java
+│   │   │       │   ├── LoginRequest.java
+│   │   │       │   ├── RegisterRequest.java
+│   │   │       │   └── UrlMappingDTO.java
+│   │   │       │
+│   │   │       ├── Jwt/
+│   │   │       │   ├── JwtAuthenticationFilter.java
+│   │   │       │   ├── JwtAuthenticationResponse.java
+│   │   │       │   └── JwtUtils.java
+│   │   │       │
+│   │   │       ├── models/
+│   │   │       │   ├── click_event.java
+│   │   │       │   ├── url_mapping.java
+│   │   │       │   └── User.java
+│   │   │       │
+│   │   │       ├── repositories/
+│   │   │       │   ├── ClickEventRepository.java
+│   │   │       │   ├── UrlMappingRepository.java
+│   │   │       │   └── UserRepository.java
+│   │   │       │
+│   │   │       ├── security/
+│   │   │       │   ├── WebConfig.java
+│   │   │       │   └── WebSecurityConfiguration.java
+│   │   │       │
+│   │   │       ├── services/
+│   │   │       │   ├── UrlMappingService.java
+│   │   │       │   ├── UserService.java
+│   │   │       │   ├── UserDetailsImpl.java
+│   │   │       │   └── UserDetailsServiceImpl.java
+│   │   │       │
+│   │   │       └── UrlShortenerApplication.java
+│   │   │
+│   │   └── resources/
+│   │       └── application.properties
+│   │
+│   └── test/
 │
-├── App.jsx
-└── main.jsx
+├── pom.xml
+└── README.md
